@@ -12,30 +12,41 @@ public class RestApi {
 
 	public static void main(String[] args) throws Exception{
 		
+		
+		// Create a Transcript object and set the audio URL
 		Transcript transcript = new Transcript();
 		transcript.setAudio_url("https://github.com/sam301100/Java-RESTful-API/blob/master/Thirsty.mp4?raw=true");
-		Gson gson = new Gson();
-		gson.toJson(transcript);
-		String jsonRequest = gson.toJson(transcript);
 		
+		
+		//Convert the Transcript object to a JSON string using Gson
+		Gson gson = new Gson();
+		String jsonRequest = gson.toJson(transcript);
 		System.out.println(jsonRequest);
 		
+		
+		//Create a POST request with the JSON body
         HttpRequest postRequest = HttpRequest.newBuilder()
                 .uri(new URI("https://api.assemblyai.com/v2/transcript"))
                 .header("Authorization", Constants.API_KEY)
                 .POST(BodyPublishers.ofString(jsonRequest))
                 .build();
         
+        
+        //Create an HttpClient
         HttpClient httpClient = HttpClient.newHttpClient();
         
-        HttpResponse<String> postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
         
+        //Send the POST request and get the response
+        HttpResponse<String> postResponse = httpClient.send(postRequest, BodyHandlers.ofString());
         System.out.println(postResponse.body());
         
-        transcript = gson.fromJson(postResponse.body(), Transcript.class);
         
+        //Deserialize the response JSON into a Transcript object
+        transcript = gson.fromJson(postResponse.body(), Transcript.class);
         System.out.println(transcript.getId());
         
+        
+        //Create a GET request to check the status of the transcription
         HttpRequest getRequest = HttpRequest.newBuilder()
                 .uri(new URI("https://api.assemblyai.com/v2/transcript/" + transcript.getId()))
                 .header("Authorization", Constants.API_KEY)
@@ -49,21 +60,23 @@ public class RestApi {
         while(true) {
         	   HttpResponse<String> getResponse = httpClient.send(getRequest, BodyHandlers.ofString());
         	   
-//        	   System.out.println(getResponse.body());
+        	   //System.out.println(getResponse.body());
 
                transcript = gson.fromJson(getResponse.body(), Transcript.class);
                
                System.out.println(transcript.getStatus());
                
                //break out of the loop if there is an error or the request process is completed
-               
                if("completed".equals(transcript.getStatus()) || "error".equals(transcript.getStatus())) {
             	   break;
                }
                
+               //Sleep for a while before sending the next GET request
                Thread.sleep(1000);
         }
         
+        
+        //Output the Transcribed Text
         System.out.println("Transcription Completed!");
         System.out.println("Trancribed Text: "+ transcript.getText());    
 		
