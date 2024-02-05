@@ -1,3 +1,5 @@
+package projectpackage;
+
 public class Transcript {
 	private String audio_url;
 	
@@ -8,8 +10,6 @@ public class Transcript {
 	public void setAudio_url(String audio_url) {
 		this.audio_url = audio_url;
 	}
-	
-	
 	
 
 }
