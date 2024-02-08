@@ -12,6 +12,11 @@
 - **Result Retrieval:** Retrieves and displays the transcribed text upon completion.
 - **Error Handling:** Displays error in the transcription process.
 
+## Rest calls - Boomerang
+
+![alt text](rest_post.png)
+![alt text](rest_get.png) 
+
 ## Requirements
 
 - **Java 11 or later:** Ensure you have Java 11 or a later version installed on your system.
