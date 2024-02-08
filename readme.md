@@ -14,8 +14,7 @@
 
 ## Rest calls - Boomerang
 
-![alt text](rest_post.png)
-![alt text](rest_get.png) 
+![alt text](rest_post-1.png) ![alt text](rest_get-1.png) 
 
 ## Requirements
 
